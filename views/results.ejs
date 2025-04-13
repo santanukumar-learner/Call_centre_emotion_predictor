@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sentiment Result</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+  <div class="container mt-5">
+    <h2 class="mb-4">🧠 Sentiment Analysis Result</h2>
+
+    <div class="card p-4 shadow">
+      <h4>Detected Sentiment: <span class="text-primary"><%= sentiment.label %></span></h4>
+
+      <p class="mt-3 mb-1">Probabilities:</p>
+      <ul class="list-group">
+        <li class="list-group-item">Positive: <%= (sentiment.probability.pos * 100).toFixed(2) %>%</li>
+        <li class="list-group-item">Neutral: <%= (sentiment.probability.neutral * 100).toFixed(2) %>%</li>
+        <li class="list-group-item">Negative: <%= (sentiment.probability.neg * 100).toFixed(2) %>%</li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>

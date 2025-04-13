@@ -1,0 +1,364 @@
+{
+  "labels": [
+    {
+      "category": "SPEAKER_TYPE",
+      "end": 62,
+      "metadata": {
+        "end_time": 3.26,
+        "speaker_id": "SPEAKER_00",
+        "start_time": 0
+      },
+      "start": 0,
+      "text": " Thank you for calling Martha's Flowers. How may I assist you?",
+      "value": "AGENT"
+    },
+    {
+      "category": "SPEAKER_TYPE",
+      "end": 140,
+      "metadata": {
+        "end_time": 7.14,
+        "speaker_id": "SPEAKER_01",
+        "start_time": 3.54
+      },
+      "start": 63,
+      "text": " Hello, I'd like to order flowers, and I think you have what I'm looking for.",
+      "value": "CLIENT"
+    },
+    {
+      "category": "SPEAKER_TYPE",
+      "end": 212,
+      "metadata": {
+        "end_time": 10.38,
+        "speaker_id": "SPEAKER_00",
+        "start_time": 7.48
+      },
+      "start": 141,
+      "text": " I'd be happy to take care of your order. May I have your name, please?",
+      "value": "AGENT"
+    },
+    {
+      "category": "SPEAKER_TYPE",
+      "end": 229,
+      "metadata": {
+        "end_time": 11.74,
+        "speaker_id": "SPEAKER_01",
+        "start_time": 11
+      },
+      "start": 213,
+      "text": " Randall Thomas.",
+      "value": "CLIENT"
+    },
+    {
+      "category": "SPEAKER_TYPE",
+      "end": 273,
+      "metadata": {
+        "end_time": 14.8,
+        "speaker_id": "SPEAKER_00",
+        "start_time": 12.54
+      },
+      "start": 230,
+      "text": " Randall Thomas. Can you spell that for me?",
+      "value": "AGENT"
+    },
+    {
+      "category": "SPEAKER_TYPE",
+      "end": 319,
+      "metadata": {
+        "end_time": 21.88,
+        "speaker_id": "SPEAKER_01",
+        "start_time": 15.859999999999996
+      },
+      "start": 274,
+      "text": " Randall, R-A-N-D-A-L-L, Thomas, T-H-O-M-A-S.",
+      "value": "CLIENT"
+    },
+    {
+      "category": "SPEAKER_TYPE",
+      "end": 417,
+      "metadata": {
+        "end_time": 26.9,
+        "speaker_id": "SPEAKER_00",
+        "start_time": 22.4
+      },
+      "start": 320,
+      "text": " Thank you for that information, Randall. May I have your home or office number, area code first?",
+      "value": "AGENT"
+    },
+    {
+      "category": "SPEAKER_TYPE",
+      "end": 448,
+      "metadata": {
+        "end_time": 33.52,
+        "speaker_id": "SPEAKER_01",
+        "start_time": 26.9
+      },
+      "start": 418,
+      "text": " Area code 409, then 866-5088.",
+      "value": "CLIENT"
+    },
+    {
+      "category": "SPEAKER_TYPE",
+      "end": 513,
+      "metadata": {
+        "end_time": 40.3,
+        "speaker_id": "SPEAKER_00",
+        "start_time": 34.42
+      },
+      "start": 449,
+      "text": " That's 409-866-5088. Do you have a fax number or email address?",
+      "value": "AGENT"
+    },
+    {
+      "category": "SPEAKER_TYPE",
+      "end": 555,
+      "metadata": {
+        "end_time": 46.18,
+        "speaker_id": "SPEAKER_01",
+        "start_time": 40.88
+      },
+      "start": 514,
+      "text": " My email is randall.thomas at gmail.com.",
+      "value": "CLIENT"
+    },
+    {
+      "category": "SPEAKER_TYPE",
+      "end": 619,
+      "metadata": {
+        "end_time": 51.3,
+        "speaker_id": "SPEAKER_00",
+        "start_time": 46.6
+      },
+      "start": 556,
+      "text": " randall.thomas at gmail.com. May I have your shipping address?",
+      "value": "AGENT"
+    },
+    {
+      "category": "SPEAKER_TYPE",
+      "end": 626,
+      "metadata": {
+        "end_time": 52.48,
+        "speaker_id": "SPEAKER_01",
+        "start_time": 51.82
+      },
+      "start": 620,
+      "text": " 6800.",
+      "value": "CLIENT"
+    },
+    {
+      "category": "SPEAKER_TYPE",
+      "end": 633,
+      "metadata": {
+        "end_time": 53.52,
+        "speaker_id": "SPEAKER_00",
+        "start_time": 52.82
+      },
+      "start": 627,
+      "text": " Okay.",
+      "value": "AGENT"
+    },
+    {
+      "category": "SPEAKER_TYPE",
+      "end": 665,
+      "metadata": {
+        "end_time": 56.88,
+        "speaker_id": "SPEAKER_01",
+        "start_time": 53.9
+      },
+      "start": 634,
+      "text": " Gladys Avenue, Palmont, Texas.",
+      "value": "CLIENT"
+    },
+    {
+      "category": "SPEAKER_TYPE",
+      "end": 689,
+      "metadata": {
+        "end_time": 60.94,
+        "speaker_id": "SPEAKER_01",
+        "start_time": 56.9
+      },
+      "start": 666,
+      "text": " Texas, zip code 77706.",
+      "value": "CLIENT"
+    },
+    {
+      "category": "SPEAKER_TYPE",
+      "end": 737,
+      "metadata": {
+        "end_time": 66.2,
+        "speaker_id": "SPEAKER_00",
+        "start_time": 61.4
+      },
+      "start": 690,
+      "text": " Gladys Avenue, Palmont, Texas, zip code 77706.",
+      "value": "AGENT"
+    },
+    {
+      "category": "SPEAKER_TYPE",
+      "end": 817,
+      "metadata": {
+        "end_time": 70.14,
+        "speaker_id": "SPEAKER_00",
+        "start_time": 66.44
+      },
+      "start": 738,
+      "text": " Thank you for the information. What products are you interested in purchasing?",
+      "value": "AGENT"
+    },
+    {
+      "category": "SPEAKER_TYPE",
+      "end": 847,
+      "metadata": {
+        "end_time": 72.78,
+        "speaker_id": "SPEAKER_01",
+        "start_time": 70.86
+      },
+      "start": 818,
+      "text": " Red roses, probably a dozen.",
+      "value": "CLIENT"
+    },
+    {
+      "category": "SPEAKER_TYPE",
+      "end": 896,
+      "metadata": {
+        "end_time": 76.34,
+        "speaker_id": "SPEAKER_00",
+        "start_time": 73.58
+      },
+      "start": 848,
+      "text": " One dozen of red roses? Do you want long stems?",
+      "value": "AGENT"
+    },
+    {
+      "category": "SPEAKER_TYPE",
+      "end": 903,
+      "metadata": {
+        "end_time": 76.88,
+        "speaker_id": "SPEAKER_01",
+        "start_time": 76.76
+      },
+      "start": 897,
+      "text": " Sure.",
+      "value": "CLIENT"
+    },
+    {
+      "category": "SPEAKER_TYPE",
+      "end": 971,
+      "metadata": {
+        "end_time": 80.88,
+        "speaker_id": "SPEAKER_00",
+        "start_time": 77.26
+      },
+      "start": 904,
+      "text": " All right, Randall, let me process your order. One moment, please.",
+      "value": "AGENT"
+    },
+    {
+      "category": "SPEAKER_TYPE",
+      "end": 978,
+      "metadata": {
+        "end_time": 82.68,
+        "speaker_id": "SPEAKER_01",
+        "start_time": 82.12
+      },
+      "start": 972,
+      "text": " Okay.",
+      "value": "CLIENT"
+    },
+    {
+      "category": "SPEAKER_TYPE",
+      "end": 1015,
+      "metadata": {
+        "end_time": 86.8,
+        "speaker_id": "SPEAKER_00",
+        "start_time": 84.86
+      },
+      "start": 979,
+      "text": " Randall, you're ordering one dozen.",
+      "value": "AGENT"
+    },
+    {
+      "category": "SPEAKER_TYPE",
+      "end": 1145,
+      "metadata": {
+        "end_time": 93.58,
+        "speaker_id": "SPEAKER_00",
+        "start_time": 86.9
+      },
+      "start": 1016,
+      "text": " One dozen long stemmed red roses. The total amount of your order is $40, and it will be shipped to your address within 24 hours.",
+      "value": "AGENT"
+    },
+    {
+      "category": "SPEAKER_TYPE",
+      "end": 1187,
+      "metadata": {
+        "end_time": 96.32,
+        "speaker_id": "SPEAKER_01",
+        "start_time": 93.94
+      },
+      "start": 1146,
+      "text": " How soon can you deliver my roses again?",
+      "value": "CLIENT"
+    },
+    {
+      "category": "SPEAKER_TYPE",
+      "end": 1205,
+      "metadata": {
+        "end_time": 97.94,
+        "speaker_id": "SPEAKER_00",
+        "start_time": 96.66
+      },
+      "start": 1188,
+      "text": " Within 24 hours.",
+      "value": "AGENT"
+    },
+    {
+      "category": "SPEAKER_TYPE",
+      "end": 1224,
+      "metadata": {
+        "end_time": 99.48,
+        "speaker_id": "SPEAKER_01",
+        "start_time": 98.5
+      },
+      "start": 1206,
+      "text": " Okay, no problem.",
+      "value": "CLIENT"
+    },
+    {
+      "category": "SPEAKER_TYPE",
+      "end": 1269,
+      "metadata": {
+        "end_time": 101.72,
+        "speaker_id": "SPEAKER_00",
+        "start_time": 99.84
+      },
+      "start": 1225,
+      "text": " Is there anything else I can help you with?",
+      "value": "AGENT"
+    },
+    {
+      "category": "SPEAKER_TYPE",
+      "end": 1298,
+      "metadata": {
+        "end_time": 103.68,
+        "speaker_id": "SPEAKER_01",
+        "start_time": 102.44
+      },
+      "start": 1270,
+      "text": " That's all for now. Thanks.",
+      "value": "CLIENT"
+    },
+    {
+      "category": "SPEAKER_TYPE",
+      "end": 1377,
+      "metadata": {
+        "end_time": 107.62,
+        "speaker_id": "SPEAKER_00",
+        "start_time": 104.06
+      },
+      "start": 1299,
+      "text": " No problem, Randall. Thank you for calling Martha's Florist. Have a nice day.",
+      "value": "AGENT"
+    }
+  ]
+}

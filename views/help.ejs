@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Use the Audio Analysis Platform</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        body {
+            background-color: #f0f2f5;
+            color: #333;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.7;
+        }
+        
+        .content-wrapper {
+            position: relative;
+            z-index: 2;
+        }
+        
+        header {
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        header h1 {
+            font-weight: 700;
+            color: #1a3c6e;
+            position: relative;
+            display: inline-block;
+        }
+        
+        header h1:after {
+            content: '';
+            position: absolute;
+            width: 60%;
+            height: 4px;
+            background: linear-gradient(90deg, #007bff, #00c3ff);
+            bottom: -10px;
+            left: 20%;
+        }
+        
+        .step-container {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 31, 63, 0.1);
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            margin-bottom: 3rem;
+        }
+        
+        .step {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-size: 17px;
+            line-height: 1.7;
+            font-weight: 400;
+            padding: 20px 25px;
+            border-left: 4px solid #007bff;
+            background: white;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .step.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .step strong {
+            color: #1a3c6e;
+            font-weight: 600;
+            font-size: 19px;
+        }
+        
+        .step-icon {
+            background: linear-gradient(45deg, #007bff, #00c3ff);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+        }
+        
+        .instruction-note {
+            background: rgba(255, 247, 224, 0.9);
+            border-left: 4px solid #ffc107;
+            padding: 15px 20px;
+            border-radius: 6px;
+            margin: 30px 0;
+            font-size: 16px;
+        }
+        
+        .instruction-note i {
+            color: #f0ad4e;
+            margin-right: 10px;
+        }
+        
+        .getting-started-btn {
+            background: linear-gradient(45deg, #1a3c6e, #007bff);
+            border: none;
+            padding: 12px 30px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+        }
+        
+        .getting-started-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <%- include('navbar2.ejs') %>
+    
+    <div id="canvas-container"></div>
+    
+    <div class="content-wrapper">
+        <header class="text-center">
+            <h1 class="display-5">How to Use the Audio Analysis Platform</h1>
+        </header>
+        
+        <main class="container mt-4">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 col-md-10">
+                    <div class="step-container">
+                        <ol class="list-unstyled">
+                            <li class="step">
+                                <div class="d-flex align-items-start">
+                                    <div class="step-icon">
+                                        <i class="fas fa-headphones"></i>
+                                    </div>
+                                    <div>
+                                        <strong>Prepare High-Quality Audio</strong>
+                                        <p class="mt-2">Ensure your audio recording is clear and of high quality. Background noise should be minimal, and speakers should be clearly audible to achieve the most accurate analysis results.</p>
+                                    </div>
+                                </div>
+                            </li>
+                            
+                            <li class="step">
+                                <div class="d-flex align-items-start">
+                                    <div class="step-icon">
+                                        <i class="fas fa-columns"></i>
+                                    </div>
+                                    <div>
+                                        <strong>Access the Upload Section</strong>
+                                        <p class="mt-2">Navigate to the dashboard and locate the "Upload" section in the main navigation menu. This is where all audio processing begins.</p>
+                                    </div>
+                                </div>
+                            </li>
+                            
+                            <li class="step">
+                                <div class="d-flex align-items-start">
+                                    <div class="step-icon">
+                                        <i class="fas fa-cloud-upload-alt"></i>
+                                    </div>
+                                    <div>
+                                        <strong>Upload Your Audio File</strong>
+                                        <p class="mt-2">Click on the upload button or drag and drop your audio file into the designated area. Supported formats include MP3, WAV, and FLAC with a maximum file size of 500MB.</p>
+                                    </div>
+                                </div>
+                            </li>
+                            
+                            <li class="step">
+                                <div class="d-flex align-items-start">
+                                    <div class="step-icon">
+                                        <i class="fas fa-check-circle"></i>
+                                    </div>
+                                    <div>
+                                        <strong>Verify and Initiate Analysis</strong>
+                                        <p class="mt-2">Verify that your file has been selected correctly, then click the "Begin Analysis" button to start processing. You can add optional tags or notes at this stage.</p>
+                                    </div>
+                                </div>
+                            </li>
+                            
+                            <li class="step">
+                                <div class="d-flex align-items-start">
+                                    <div class="step-icon">
+                                        <i class="fas fa-hourglass-half"></i>
+                                    </div>
+                                    <div>
+                                        <strong>Processing Period</strong>
+                                        <p class="mt-2">Wait for the processing to complete. This typically takes 30-60 seconds depending on the file size and complexity. A progress indicator will show the current status.</p>
+                                    </div>
+                                </div>
+                            </li>
+                            
+                            <li class="step">
+                                <div class="d-flex align-items-start">
+                                    <div class="step-icon">
+                                        <i class="fas fa-chart-line"></i>
+                                    </div>
+                                    <div>
+                                        <strong>Review Analysis Results</strong>
+                                        <p class="mt-2">Once processing is complete, you'll be automatically directed to the results page showing tone analysis, sentiment scores, and key conversation insights.</p>
+                                    </div>
+                                </div>
+                            </li>
+                            
+                            <li class="step">
+                                <div class="d-flex align-items-start">
+                                    <div class="step-icon">
+                                        <i class="fas fa-file-alt"></i>
+                                    </div>
+                                    <div>
+                                        <strong>Examine Detailed Transcript</strong>
+                                        <p class="mt-2">Review the detailed transcript with highlighted sections indicating significant moments, emotional shifts, or potential areas of concern.</p>
+                                    </div>
+                                </div>
+                            </li>
+                            
+                            <li class="step">
+                                <div class="d-flex align-items-start">
+                                    <div class="step-icon">
+                                        <i class="fas fa-share-alt"></i>
+                                    </div>
+                                    <div>
+                                        <strong>Export or Share Results</strong>
+                                        <p class="mt-2">Export your analysis results in PDF, CSV, or share directly with team members through the integrated sharing options. Data can also be accessed via API.</p>
+                                    </div>
+                                </div>
+                            </li>
+                        </ol>
+                        
+                        <div class="instruction-note">
+                            <i class="fas fa-lightbulb"></i> <strong>Pro Tip:</strong> For multi-speaker audio, use the "Speaker Identification" option before analysis to improve accuracy of speaker-specific metrics and sentiment tracking.
+                        </div>
+                        
+                        <div class="text-center mt-5">
+                            <button class="btn btn-primary btn-lg getting-started-btn">
+                                <i class="fas fa-rocket me-2"></i> Get Started Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <script>
+        // Initialize Three.js scene
+        let scene, camera, renderer;
+        let particles;
+
+        function initThree() {
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            document.getElementById('canvas-container').appendChild(renderer.domElement);
+            
+            // Create audio visualization-like particles
+            const particleGeometry = new THREE.BufferGeometry();
+            const particleCount = 300;
+            
+            const positions = new Float32Array(particleCount * 3);
+            const colors = new Float32Array(particleCount * 3);
+            
+            const blueColor = new THREE.Color(0x007bff);
+            const lightBlueColor = new THREE.Color(0x00c3ff);
+            
+            for (let i = 0; i < particleCount; i++) {
+                // Position particles in a wave-like pattern
+                const x = (Math.random() - 0.5) * 50;
+                const y = (Math.random() - 0.5) * 30;
+                const z = (Math.random() - 0.5) * 10;
+                
+                positions[i * 3] = x;
+                positions[i * 3 + 1] = y;
+                positions[i * 3 + 2] = z;
+                
+                // Mix colors between blue shades
+                const mixedColor = blueColor.clone().lerp(lightBlueColor, Math.random());
+                colors[i * 3] = mixedColor.r;
+                colors[i * 3 + 1] = mixedColor.g;
+                colors[i * 3 + 2] = mixedColor.b;
+            }
+            
+            particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            particleGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+            
+            const particleMaterial = new THREE.PointsMaterial({
+                size: 0.7,
+                vertexColors: true,
+                transparent: true,
+                opacity: 0.6
+            });
+            
+            particles = new THREE.Points(particleGeometry, particleMaterial);
+            scene.add(particles);
+            
+            camera.position.z = 30;
+            
+            animate();
+            window.addEventListener('resize', onWindowResize);
+        }
+        
+        function animate() {
+            requestAnimationFrame(animate);
+            
+            // Create wave-like movement for particles
+            const time = Date.now() * 0.0005;
+            const positions = particles.geometry.attributes.position.array;
+            
+            for (let i = 0; i < positions.length; i += 3) {
+                const x = positions[i];
+                const y = positions[i + 1];
+                
+                // Apply sine wave motion
+                positions[i + 1] = y + Math.sin(time + x) * 0.1;
+            }
+            
+            particles.geometry.attributes.position.needsUpdate = true;
+            particles.rotation.y += 0.0005;
+            
+            renderer.render(scene, camera);
+        }
+        
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+        
+        // Initialize animations for steps
+        $(document).ready(function() {
+            initThree();
+            
+            // Animate steps when they enter viewport
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.classList.add('visible');
+                        }, 150);
+                    }
+                });
+            }, { threshold: 0.2 });
+            
+            document.querySelectorAll('.step').forEach((step) => {
+                observer.observe(step);
+            });
+        });
+    </script>
+    
+    <%- include('footer.ejs') %>
+</body>
+</html>

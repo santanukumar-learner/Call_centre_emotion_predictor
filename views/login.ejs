@@ -1,0 +1,571 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Enterprise Credit Platform - Account Access</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  </head>
+
+  <style>
+    :root {
+      --primary: #1a3764;
+      --secondary: #3c6e71;
+      --accent: #0d6efd;
+      --success: #28a745;
+      --info: #17a2b8;
+      --light: #f8f9fa;
+      --dark: #343a40;
+      --bg-light: #f5f7fa;
+      --text-color: #333;
+    }
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: var(--bg-light);
+        margin: 0;
+        padding: 0;
+        color: var(--text-color);
+    }
+
+    #animation-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        opacity: 0.6;
+    }
+
+    .page-wrapper {
+        position: relative;
+        z-index: 1;
+        min-height: 100vh;
+    }
+
+    .logo-area {
+        text-align: center;
+        padding: 2rem 0;
+    }
+
+    .logo-area h1 {
+        font-weight: 700;
+        color: var(--primary);
+        margin-bottom: 0.5rem;
+    }
+
+    .logo-area p {
+        color: var(--secondary);
+        font-size: 1.1rem;
+    }
+
+    .tab-buttons {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 2rem;
+    }
+
+    .custom-btn {
+        padding: 13px 28px;
+        font-size: 16px;
+        font-weight: 600;
+        border: none;
+        border-radius: 8px;
+        color: white;
+        cursor: pointer;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+        letter-spacing: 0.5px;
+    }
+
+    .custom-btn:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 0%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.1);
+        transition: all 0.4s ease-in-out;
+        z-index: -1;
+    }
+
+    .custom-btn:hover:before {
+        width: 100%;
+    }
+
+    .register-btn {
+        background: linear-gradient(135deg, var(--primary), #0d2850);
+    }
+
+    .login-btn {
+        background: linear-gradient(135deg, var(--accent), #0056b3);
+    }
+
+    .custom-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .active-btn {
+        transform: translateY(-1px);
+        box-shadow: 0 5px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .form-container {
+        background: white;
+        padding: 35px;
+        border-radius: 12px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+        transition: all 0.5s ease;
+        margin-bottom: 3rem;
+    }
+
+    .form-container h2 {
+        color: var(--primary);
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        position: relative;
+        padding-bottom: 10px;
+    }
+
+    .form-container h2:after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 40px;
+        height: 3px;
+        background-color: var(--accent);
+    }
+
+    .text-center h2:after {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .form-control {
+        border-radius: 8px;
+        padding: 12px 15px;
+        border: 1px solid #e1e5eb;
+        transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+        box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.1);
+        border-color: var(--accent);
+    }
+
+    .form-label {
+        font-weight: 500;
+        color: #495057;
+        margin-bottom: 0.5rem;
+    }
+
+    .form-check-input:checked {
+        background-color: var(--primary);
+        border-color: var(--primary);
+    }
+
+    .gender-options {
+        display: flex;
+        gap: 20px;
+    }
+
+    .gender-option {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        cursor: pointer;
+    }
+
+    .gender-option input[type="radio"] {
+        cursor: pointer;
+    }
+
+    .error-alert {
+        border-radius: 8px;
+        margin: 1rem 0;
+    }
+
+    .form-footer {
+        text-align: center;
+        margin-top: 1.5rem;
+        color: #6c757d;
+    }
+
+    .form-footer a {
+        color: var(--accent);
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+    .form-footer a:hover {
+        text-decoration: underline;
+    }
+
+    /* Animations */
+    .slide-in-right {
+        animation: slideInRight 0.5s forwards;
+    }
+
+    .slide-in-left {
+        animation: slideInLeft 0.5s forwards;
+    }
+
+    .fade-in {
+        animation: fadeIn 0.8s forwards;
+    }
+
+    @keyframes slideInRight {
+        from {
+            transform: translateX(30px);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+
+    @keyframes slideInLeft {
+        from {
+            transform: translateX(-30px);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
+    /* Input icon styling */
+    .input-group {
+        position: relative;
+    }
+
+    .input-icon {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        right: 15px;
+        color: #adb5bd;
+        z-index: 10;
+    }
+
+    .input-with-icon {
+        padding-right: 40px;
+    }
+
+    /* Password toggle */
+    .password-toggle {
+        cursor: pointer;
+        transition: color 0.2s;
+    }
+
+    .password-toggle:hover {
+        color: var(--accent);
+    }
+
+    .alert {
+        border-radius: 8px;
+        padding: 1rem;
+    }
+  </style>
+
+  <body>
+    <div id="animation-container"></div>
+    
+    <div class="page-wrapper">
+        <%- include('navbar2.ejs') %>
+
+        <% if (messages.error) { %>
+            <div class="container mt-3">
+                <div class="alert alert-danger error-alert">
+                    <i class="fas fa-exclamation-circle me-2"></i><%= messages.error %>
+                </div>
+            </div>
+        <% } %>
+
+        <div class="container mt-4">
+            <div class="logo-area fade-in">
+                <h1>Intelligent Audio Analysis Platform</h1>
+<p>Unlock valuable insights from conversations to enhance decision-making</p>
+
+            </div>
+
+            <div class="tab-buttons">
+                <button type="button" class="custom-btn register-btn me-3 Register active-btn">
+                    <i class="fas fa-user-plus me-2"></i>Register
+                </button>
+                <button type="button" class="custom-btn login-btn Login">
+                    <i class="fas fa-sign-in-alt me-2"></i>Login
+                </button>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-md-5 col-lg-4 form-container slide-in-right" id="login" style="display: none;">
+                    <h2 class="text-center">Sign In</h2>
+                    <form action="/login" method="post" novalidate>
+                        <div class="mb-4">
+                            <label class="form-label">Email Address</label>
+                            <div class="input-group">
+                                <input type="email" class="form-control input-with-icon" name="email" required>
+                                <span class="input-icon">
+                                    <i class="fas fa-envelope"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label">Password</label>
+                            <div class="input-group">
+                                <input type="password" class="form-control input-with-icon" name="password" id="loginPassword" required>
+                                <span class="input-icon password-toggle" onclick="togglePassword('loginPassword')">
+                                    <i class="fas fa-eye" id="loginPasswordToggle"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="mb-4 form-check">
+                            <input type="checkbox" class="form-check-input" id="rememberMe">
+                            <label class="form-check-label" for="rememberMe">Remember me</label>
+                        </div>
+                        <button class="custom-btn login-btn w-100">
+                            <i class="fas fa-sign-in-alt me-2"></i>Sign In
+                        </button>
+                        <div class="form-footer">
+                            <p>Forgot your password? <a href="#">Reset it here</a></p>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="col-md-6 col-lg-5 form-container slide-in-left" id="register">
+                    <h2 class="text-center">Create Account</h2>
+                    <form action="/register" method="post" novalidate>
+                        <div class="mb-3">
+                            <label class="form-label">Username</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control input-with-icon" name="username" required>
+                                <span class="input-icon">
+                                    <i class="fas fa-user"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Email Address</label>
+                            <div class="input-group">
+                                <input type="email" class="form-control input-with-icon" name="email" required>
+                                <span class="input-icon">
+                                    <i class="fas fa-envelope"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Password</label>
+                            <div class="input-group">
+                                <input type="password" class="form-control input-with-icon" name="password" id="registerPassword" required>
+                                <span class="input-icon password-toggle" onclick="togglePassword('registerPassword')">
+                                    <i class="fas fa-eye" id="registerPasswordToggle"></i>
+                                </span>
+                            </div>
+                            <small class="text-muted">Password must be at least 8 characters with numbers and letters</small>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Age</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control input-with-icon" name="age" required min="18">
+                                    <span class="input-icon">
+                                        <i class="fas fa-birthday-cake"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Gender</label>
+                                <div class="gender-options">
+                                    <label class="gender-option">
+                                        <input type="radio" name="gender" value="Male" required>
+                                        <span>Male</span>
+                                    </label>
+                                    <label class="gender-option">
+                                        <input type="radio" name="gender" value="Female">
+                                        <span>Female</span>
+                                    </label>
+                                    <label class="gender-option">
+                                        <input type="radio" name="gender" value="Other">
+                                        <span>Other</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="termsCheck" required>
+                            <label class="form-check-label" for="termsCheck">
+                                I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+                            </label>
+                        </div>
+                        <button class="custom-btn register-btn w-100">
+                            <i class="fas fa-user-plus me-2"></i>Create Account
+                        </button>
+                        <div class="form-footer">
+                            <p>Already have an account? <a href="#" class="login-link">Sign in</a></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab switching functionality
+        document.querySelector(".Login").addEventListener("click", () => {
+            document.querySelector("#login").style.display = "block";
+            document.querySelector("#register").style.display = "none";
+            document.querySelector(".Login").classList.add("active-btn");
+            document.querySelector(".Register").classList.remove("active-btn");
+        });
+
+        document.querySelector(".Register").addEventListener("click", () => {
+            document.querySelector("#login").style.display = "none";
+            document.querySelector("#register").style.display = "block";
+            document.querySelector(".Register").classList.add("active-btn");
+            document.querySelector(".Login").classList.remove("active-btn");
+        });
+
+        // Also allow login link in register form to switch tabs
+        document.querySelector(".login-link")?.addEventListener("click", (e) => {
+            e.preventDefault();
+            document.querySelector(".Login").click();
+        });
+
+        // Password visibility toggle function
+        function togglePassword(inputId) {
+            const passwordInput = document.getElementById(inputId);
+            const toggleIcon = document.getElementById(inputId + 'Toggle');
+            
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                toggleIcon.classList.remove("fa-eye");
+                toggleIcon.classList.add("fa-eye-slash");
+            } else {
+                passwordInput.type = "password";
+                toggleIcon.classList.remove("fa-eye-slash");
+                toggleIcon.classList.add("fa-eye");
+            }
+        }
+
+        // Three.js Animation
+        function initThreeJsAnimation() {
+            const container = document.getElementById('animation-container');
+            
+            // Create scene, camera and renderer
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setClearColor(0x000000, 0);
+            container.appendChild(renderer.domElement);
+            
+            // Create particle geometry
+            const particlesGeometry = new THREE.BufferGeometry();
+            const particlesCount = 1500;
+            
+            const posArray = new Float32Array(particlesCount * 3);
+            
+            // Create random positions for particles
+            for(let i = 0; i < particlesCount * 3; i++) {
+                posArray[i] = (Math.random() - 0.5) * 15;
+            }
+            
+            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+            
+            // Create material
+            const particlesMaterial = new THREE.PointsMaterial({
+                size: 0.03,
+                color: 0x1a3764,
+                transparent: true,
+                opacity: 0.8
+            });
+            
+            // Create mesh
+            const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+            scene.add(particlesMesh);
+            
+            // Position camera
+            camera.position.z = 5;
+            
+            // Raycaster for mouse interaction
+            const raycaster = new THREE.Raycaster();
+            const mouse = {
+                x: undefined,
+                y: undefined
+            };
+            
+            // Mouse move event
+            document.addEventListener('mousemove', (event) => {
+                mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+                mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+            });
+            
+            // Animation loop
+            const clock = new THREE.Clock();
+            
+            function animate() {
+                const elapsedTime = clock.getElapsedTime();
+                
+                // Rotate particles
+                particlesMesh.rotation.y = elapsedTime * 0.05;
+                
+                // Mouse interaction
+                raycaster.setFromCamera(mouse, camera);
+                const intersects = raycaster.intersectObject(particlesMesh);
+                
+                if (intersects.length > 0) {
+                    intersects[0].object.rotation.y += 0.01;
+                    intersects[0].object.rotation.x += 0.01;
+                }
+                
+                // Render
+                renderer.render(scene, camera);
+                
+                // Call animate again on the next frame
+                requestAnimationFrame(animate);
+            }
+            
+            animate();
+            
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                // Update sizes
+                const width = window.innerWidth;
+                const height = window.innerHeight;
+                
+                // Update camera
+                camera.aspect = width / height;
+                camera.updateProjectionMatrix();
+                
+                // Update renderer
+                renderer.setSize(width, height);
+            });
+        }
+        
+        // Initialize Three.js animation
+        initThreeJsAnimation();
+    </script>
+  </body>
+</html>

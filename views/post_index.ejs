@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Credit Risk Intelligence Platform</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/locomotive-scroll/4.1.4/locomotive-scroll.min.css">
+    
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --text: #34495e;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text);
+            background-color: var(--light);
+            overflow-x: hidden;
+        }
+        
+        .scroll-container {
+            height: 100%;
+            width: 100%;
+        }
+        
+        /* Typography */
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+        }
+        
+        h2 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+        }
+        
+        p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+        
+        /* Section Styling */
+        .section {
+            padding: 100px 0;
+            position: relative;
+        }
+        
+        .section-light {
+            background-color: #fff;
+        }
+        
+        .section-dark {
+            background-color: var(--primary);
+            color: #fff;
+        }
+        
+        /* Image Styling */
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+        }
+        
+        img:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* List Items */
+        .feature-list li {
+            margin-bottom: 1rem;
+            position: relative;
+            padding-left: 2rem;
+        }
+        
+        .feature-list li i {
+            position: absolute;
+            left: 0;
+            top: 0.3rem;
+            color: var(--secondary);
+        }
+        
+        /* Card Styling */
+        .card {
+            border: none;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 100%;
+        }
+        
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .card-img-top {
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .card-body {
+            padding: 2rem;
+        }
+        
+        /* Buttons */
+        .btn-primary {
+            background-color: var(--secondary);
+            border-color: var(--secondary);
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary);
+            border-color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+        }
+        
+        /* Alert Styling */
+        .alert {
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            border: none;
+        }
+        
+        /* Animation Classes */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s ease;
+        }
+        
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Custom Shapes */
+        .shape-divider {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            overflow: hidden;
+            line-height: 0;
+        }
+        
+        .shape-divider svg {
+            position: relative;
+            display: block;
+            width: calc(100% + 1.3px);
+            height: 70px;
+        }
+        
+        .shape-divider .shape-fill {
+            fill: #FFFFFF;
+        }
+        
+        /* Floating Elements */
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        /* Stats Counter */
+        .counter-box {
+            text-align: center;
+            padding: 30px 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+        
+        .counter-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--secondary);
+            margin-bottom: 10px;
+        }
+        
+        .counter-text {
+            font-size: 1.2rem;
+            color: var(--text);
+        }
+        
+        /* Navbar Styling */
+        .navbar {
+            padding: 20px 0;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar.scrolled {
+            background-color: white;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            padding: 15px 0;
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.8rem;
+            color: var(--primary);
+        }
+        
+        .nav-link {
+            font-weight: 600;
+            color: var(--primary);
+            margin: 0 15px;
+            position: relative;
+        }
+        
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: var(--secondary);
+            left: 0;
+            bottom: -5px;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover:after {
+            width: 100%;
+        }
+    </style>
+</head>
+<body data-scroll-container>
+
+    <%- include('navbar.ejs') %>
+
+    <% if (messages.welcome && messages.welcome.length > 0) { %>
+        <div class="alert alert-success welcome"><%= messages.welcome[0] %></div>
+    <% } %>
+
+    <% if (messages.error && messages.error.length > 0) { %>
+        <div class="alert alert-danger error danger"><%= messages.error[0] %></div>
+    <% } %>
+
+    <!-- Hero Section -->
+    <section class="section py-5" data-scroll-section>
+        <div class="container mt-5">
+            <div class="row align-items-center">
+                <div class="col-lg-6" data-scroll data-scroll-speed="2" data-scroll-delay="0.1">
+                    <h1>AI-Powered Audio Transcription & Analysis</h1>
+                    <p class="lead">Leverage cutting-edge voice intelligence to transcribe conversations, detect emotions, and uncover actionable insights from audio data.</p>
+                    <div class="d-flex gap-3">
+                        <a href="#" class="btn btn-primary">Start Analyzing</a>
+                        <a href="#" class="btn btn-outline-secondary">Explore Features</a>
+                    </div>
+                </div>
+                <div class="col-lg-6 text-center" data-scroll data-scroll-speed="1">
+                    <img src="media/images/audio_transcribe.png" class="img-fluid floating" style="width: 80%;"/>
+                </div>
+            </div>
+        </div>
+        <div class="shape-divider">
+            <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
+            </svg>
+        </div>
+    </section>
+    
+
+    <!-- Key Features Section -->
+<section class="section section-light py-5" data-scroll-section>
+    <div class="container">
+        <div class="row mb-5 text-center">
+            <div class="col-lg-8 mx-auto">
+                <h2 data-scroll data-scroll-speed="1">Advanced Audio Intelligence</h2>
+                <p data-scroll data-scroll-speed="0.5">
+                    Unlock valuable insights from voice interactions using our cutting-edge audio analysis platform, tailored for modern customer experience optimization.
+                </p>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-4 mb-4" data-scroll data-scroll-speed="1" data-scroll-delay="0.1">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="text-center mb-4">
+                            <i class="fas fa-file-audio fa-3x text-primary"></i>
+                        </div>
+                        <h4 class="card-title text-center">Audio Transcription</h4>
+                        <p class="card-text">Convert conversations into accurate, time-stamped transcripts for easy documentation and compliance.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4" data-scroll data-scroll-speed="1" data-scroll-delay="0.2">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="text-center mb-4">
+                            <i class="fas fa-user-tag fa-3x text-primary"></i>
+                        </div>
+                        <h4 class="card-title text-center">Speaker Identification</h4>
+                        <p class="card-text">Distinguish between agents and customers in real time for accurate tracking and performance evaluation.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4" data-scroll data-scroll-speed="1" data-scroll-delay="0.3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="text-center mb-4">
+                            <i class="fas fa-heartbeat fa-3x text-primary"></i>
+                        </div>
+                        <h4 class="card-title text-center">Sentiment Analysis</h4>
+                        <p class="card-text">Understand emotional tones and detect dissatisfaction using real-time sentiment monitoring.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4" data-scroll data-scroll-speed="1" data-scroll-delay="0.4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="text-center mb-4">
+                            <i class="fas fa-clock fa-3x text-primary"></i>
+                        </div>
+                        <h4 class="card-title text-center">Hold Time Calculation</h4>
+                        <p class="card-text">Automatically measure hold durations to improve operational efficiency and customer satisfaction.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4" data-scroll data-scroll-speed="1" data-scroll-delay="0.5">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="text-center mb-4">
+                            <i class="fas fa-microphone-slash fa-3x text-primary"></i>
+                        </div>
+                        <h4 class="card-title text-center">Dead Air Detection</h4>
+                        <p class="card-text">Identify silent patches in calls that may indicate confusion, disconnection, or poor agent performance.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4" data-scroll data-scroll-speed="1" data-scroll-delay="0.6">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="text-center mb-4">
+                            <i class="fas fa-comment-slash fa-3x text-primary"></i>
+                        </div>
+                        <h4 class="card-title text-center">Agent Overtalk</h4>
+                        <p class="card-text">Detect instances where agents interrupt customers, helping you improve conversational etiquette and training.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+    <!-- Risk Strategy Section -->
+    <section class="section py-5" data-scroll-section>
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6 p-4" data-scroll data-scroll-speed="2">
+                    <h2>Why Customers Are Dissatisfied</h2>
+                    <p>Understanding customer pain points is crucial for improving service quality and building trust. Many issues stem from communication inefficiencies and lack of personalization.</p>
+    
+                    <ul class="feature-list list-unstyled">
+                        <li><i class="fas fa-headset"></i> <strong>Long Hold Times</strong> – Extended waiting frustrates customers and reduces satisfaction.</li>
+                        <li><i class="fas fa-microphone-slash"></i> <strong>Dead Air</strong> – Silence during conversations signals unpreparedness or technical issues.</li>
+                        <li><i class="fas fa-comment-slash"></i> <strong>Lack of Empathy</strong> – Generic or scripted responses feel impersonal and dismissive.</li>
+                        <li><i class="fas fa-exchange-alt"></i> <strong>Agent Overtalk</strong> – Interruptions or dominance in conversation create negative experiences.</li>
+                        <li><i class="fas fa-volume-up"></i> <strong>Misunderstood Intent</strong> – Inaccurate transcription or poor audio analysis leads to unresolved concerns.</li>
+                    </ul>
+    
+                    <p>Identifying these challenges is the first step toward transforming customer interactions and delivering exceptional support.</p>
+                </div>
+                <div class="col-md-6 p-4 text-center" data-scroll data-scroll-speed="1">
+                    <img src="media/images/costemer_dissatisfaction.jpg" class="img-fluid" style="width: 80%;" />
+                </div>
+            </div>
+        </div>
+    </section>
+    
+
+    <!-- Stats Section -->
+    <section class="section section-light py-5" data-scroll-section>
+        <div class="container">
+            <div class="row mb-5 text-center">
+                <div class="col-lg-8 mx-auto">
+                    <h2 data-scroll data-scroll-speed="1">Proven Impact on Call Center Performance</h2>
+                    <p data-scroll data-scroll-speed="0.5">Our intelligent audio analytics solution drives efficiency, enhances customer satisfaction, and empowers data-driven decisions.</p>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-3" data-scroll data-scroll-speed="1" data-scroll-delay="0.1">
+                    <div class="counter-box">
+                        <div class="counter-number" data-count="45">0</div>
+                        <div class="counter-text">Reduction in Hold Time</div>
+                    </div>
+                </div>
+                
+                <div class="col-md-3" data-scroll data-scroll-speed="1" data-scroll-delay="0.2">
+                    <div class="counter-box">
+                        <div class="counter-number" data-count="60">0</div>
+                        <div class="counter-text">Improved Call Transcription Accuracy</div>
+                    </div>
+                </div>
+                
+                <div class="col-md-3" data-scroll data-scroll-speed="1" data-scroll-delay="0.3">
+                    <div class="counter-box">
+                        <div class="counter-number" data-count="55">0</div>
+                        <div class="counter-text">Decrease in Dead Air Incidents</div>
+                    </div>
+                </div>
+                
+                <div class="col-md-3" data-scroll data-scroll-speed="1" data-scroll-delay="0.4">
+                    <div class="counter-box">
+                        <div class="counter-number" data-count="85">0</div>
+                        <div class="counter-text">Increase in Customer Satisfaction</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+
+    <!-- Action Section -->
+    <section class="section py-5" data-scroll-section>
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6 p-4 text-center" data-scroll data-scroll-speed="1">
+                    <img src="media/images/improvement.jpg" class="img-fluid" style="width: 90%;" />
+                </div>
+                <div class="col-md-6 p-4" data-scroll data-scroll-speed="2">
+                    <h2>Elevate Customer-Agent Relationships</h2>
+                    <p>Every customer interaction is a chance to strengthen your brand. Our platform uncovers key insights from conversations, helping you improve both experience and outcomes.</p>
+                
+                    <ul class="feature-list list-unstyled">
+                        <li><i class="fas fa-headset"></i> <strong>Agent Empathy</strong> – Identify tone and sentiment to ensure agents respond with the right emotional cues.</li>
+                        <li><i class="fas fa-stopwatch"></i> <strong>Call Efficiency</strong> – Reduce hold time and dead air to create more satisfying customer experiences.</li>
+                        <li><i class="fas fa-thumbs-up"></i> <strong>Trust & Retention</strong> – Build loyalty by ensuring respectful, clear, and effective communication on every call.</li>
+                    </ul>
+                
+                    <p>Turn every conversation into a competitive advantage. Understand what your customers truly feel—and respond better, faster, and smarter.</p>
+                    <a href="#" class="btn btn-primary">Optimize Engagement Now</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+
+    <!-- Call to Action Section -->
+<section class="section section-dark py-5" data-scroll-section>
+    <div class="container text-center">
+        <h2 class="mb-4" data-scroll data-scroll-speed="1">Ready to Revolutionize Your Call Center Insights?</h2>
+        <p class="mb-5" data-scroll data-scroll-speed="0.5">Join organizations already enhancing customer experience with our AI-powered audio analysis platform</p>
+        <a href="#" class="btn btn-light btn-lg" data-scroll data-scroll-speed="1">Request a Demo</a>
+    </div>
+</section>
+
+
+    <%- include('footer.ejs') %>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/locomotive-scroll/4.1.4/locomotive-scroll.min.js"></script>
+    <script>
+        // Initialize Locomotive Scroll
+        const scroll = new LocomotiveScroll({
+            el: document.querySelector('[data-scroll-container]'),
+            smooth: true,
+            multiplier: 1,
+            lerp: 0.05,
+            tablet: { smooth: true },
+            smartphone: { smooth: true }
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Counter animation
+        function startCounters() {
+            const counters = document.querySelectorAll('.counter-number');
+            const speed = 200;
+            
+            counters.forEach(counter => {
+                const target = +counter.getAttribute('data-count');
+                let count = 0;
+                
+                const updateCount = () => {
+                    const increment = target / speed;
+                    
+                    if (count < target) {
+                        count += increment;
+                        counter.innerText = Math.ceil(count) + '%';
+                        setTimeout(updateCount, 1);
+                    } else {
+                        counter.innerText = target + '%';
+                    }
+                };
+                
+                updateCount();
+            });
+        }
+
+        // Update on scroll
+        scroll.on('scroll', (instance) => {
+            document.querySelectorAll('[data-scroll]').forEach(element => {
+                if (element.getBoundingClientRect().top < window.innerHeight * 0.8) {
+                    element.classList.add('active');
+                    
+                    // Check if element contains counters and start animation
+                    if (element.querySelector('.counter-number')) {
+                        startCounters();
+                    }
+                }
+            });
+        });
+
+        // Refresh Locomotive Scroll on page load
+        window.addEventListener('load', () => {
+            scroll.update();
+        });
+
+        // Reveal animation for elements
+        function reveal() {
+            const reveals = document.querySelectorAll(".reveal");
+          
+            for (let i = 0; i < reveals.length; i++) {
+                const windowHeight = window.innerHeight;
+                const elementTop = reveals[i].getBoundingClientRect().top;
+                const elementVisible = 150;
+            
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        
+        window.addEventListener("scroll", reveal);
+        reveal(); // Call on load
+    </script>
+</body>
+</html>

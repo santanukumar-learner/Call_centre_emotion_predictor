@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Output Page</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f5f5f5;
+      color: #333;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    header {
+      background-color: #2c3e50;
+      color: white;
+      padding: 1.5rem 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      margin: 0;
+      font-weight: 400;
+      letter-spacing: 0.5px;
+    }
+
+    .button-container {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+
+    .toggle-button {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 4px;
+      background-color: #34495e;
+      color: white;
+      cursor: pointer;
+      font-size: 15px;
+      transition: all 0.3s ease;
+      font-weight: 500;
+    }
+
+    .toggle-button:hover {
+      background-color: #2c3e50;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+
+    .toggle-button.active {
+      background-color: #1abc9c;
+    }
+
+    .section {
+      display: none;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      padding: 20px;
+    }
+
+    .dialogue-container {
+      max-height: 70vh;
+      overflow-y: auto;
+      padding-right: 10px;
+    }
+
+    .dialogue-line {
+      padding: 15px;
+      margin-bottom: 12px;
+      border-radius: 6px;
+      background-color: #f9f9f9;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      line-height: 1.5;
+    }
+
+    .agent {
+      border-left: 4px solid #3498db;
+    }
+
+    .client {
+      border-left: 4px solid #2ecc71;
+    }
+
+    .speaker-tag {
+      font-weight: 600;
+      margin-bottom: 5px;
+      display: block;
+    }
+
+    .agent .speaker-tag {
+      color: #3498db;
+    }
+
+    .client .speaker-tag {
+      color: #2ecc71;
+    }
+
+    .rating-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+
+    .rating-title {
+      font-size: 22px;
+      margin-bottom: 25px;
+      color: #2c3e50;
+    }
+
+    .circle-rating {
+      position: relative;
+      width: 180px;
+      height: 180px;
+      background-color: #ecf0f1;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+    }
+
+    .rating-value {
+      font-size: 48px;
+      font-weight: 700;
+      color: #2c3e50;
+    }
+
+    .rating-max {
+      font-size: 22px;
+      color: #7f8c8d;
+      margin-left: 5px;
+    }
+
+    .rating-stars {
+      margin-top: 20px;
+      font-size: 26px;
+      color: #f1c40f;
+      letter-spacing: 5px;
+    }
+
+    .suggestion-box {
+      padding: 15px;
+      margin-top: 20px;
+      background-color: #f3e5f5;
+      border-left: 4px solid #9b59b6;
+      border-radius: 6px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      line-height: 1.6;
+      white-space: pre-wrap;
+    }
+
+    .speaker-tag.suggestion {
+      color: #9b59b6;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>Conversation Analysis</h1>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="button-container">
+      <button id="dialogueBtn" class="toggle-button active" onclick="showSection('dialogueSection')">Conversation</button>
+      <button id="ratingBtn" class="toggle-button" onclick="showSection('ratingSection')">Performance Rating</button>
+      <button id="suggestionBtn" class="toggle-button" onclick="showSection('suggestionSection')">Suggestions</button>
+    </div>
+
+    <!-- Dialogue Section -->
+    <div id="dialogueSection" class="section">
+      <div class="dialogue-container">
+        <% dialogue.forEach(function(line) { %>
+          <% if (line.startsWith('AGENT:')) { %>
+            <div class="dialogue-line agent">
+              <span class="speaker-tag">AGENT</span>
+              <span><%= line.substring(6).trim() %></span>
+            </div>
+          <% } else if (line.startsWith('CLIENT:')) { %>
+            <div class="dialogue-line client">
+              <span class="speaker-tag">CLIENT</span>
+              <span><%= line.substring(7).trim() %></span>
+            </div>
+          <% } else { %>
+            <div class="dialogue-line">
+              <span><%= line %></span>
+            </div>
+          <% } %>
+        <% }); %>
+      </div>
+    </div>
+
+    <!-- Rating Section -->
+    <div id="ratingSection" class="section">
+      <div class="rating-container">
+        <h2 class="rating-title">Performance Rating</h2>
+        <div class="circle-rating">
+          <span class="rating-value"><%= rating %><span class="rating-max">/5</span></span>
+        </div>
+        <div class="rating-stars">
+          <% for (var i = 0; i < Math.floor(rating); i++) { %>
+            ★
+          <% } %>
+          <% if (rating % 1 !== 0) { %>
+            ☆
+          <% } %>
+          <% for (var i = 0; i < 5 - Math.ceil(rating); i++) { %>
+            ☆
+          <% } %>
+        </div>
+      </div>
+    </div>
+
+    <!-- Suggestions Section -->
+    <div id="suggestionSection" class="section">
+      <div class="dialogue-container">
+        <div class="dialogue-line suggestion-box">
+          <span class="speaker-tag suggestion">Gemini Suggestions</span>
+          <span><%= suggestions %></span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    function showSection(sectionId) {
+      // Hide all sections
+      document.getElementById('dialogueSection').style.display = 'none';
+      document.getElementById('ratingSection').style.display = 'none';
+      document.getElementById('suggestionSection').style.display = 'none';
+
+      // Remove active class from all buttons
+      document.getElementById('dialogueBtn').classList.remove('active');
+      document.getElementById('ratingBtn').classList.remove('active');
+      document.getElementById('suggestionBtn').classList.remove('active');
+
+      // Show selected section
+      document.getElementById(sectionId).style.display = 'block';
+
+      // Add active class to clicked button
+      if (sectionId === 'dialogueSection') {
+        document.getElementById('dialogueBtn').classList.add('active');
+      } else if (sectionId === 'ratingSection') {
+        document.getElementById('ratingBtn').classList.add('active');
+      } else {
+        document.getElementById('suggestionBtn').classList.add('active');
+      }
+    }
+
+    // Show dialogue by default
+    showSection('dialogueSection');
+  </script>
+</body>
+</html>

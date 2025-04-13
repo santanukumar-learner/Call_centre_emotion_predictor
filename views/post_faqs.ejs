@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Analysis Platform - Frequently Asked Questions</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        body {
+            background-color: #f0f2f5;
+            color: #333;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.7;
+        }
+        
+        .content-wrapper {
+            position: relative;
+            z-index: 2;
+        }
+        
+        header {
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        header h1 {
+            font-weight: 700;
+            color: #1a3c6e;
+            position: relative;
+            display: inline-block;
+        }
+        
+        header h1:after {
+            content: '';
+            position: absolute;
+            width: 60%;
+            height: 4px;
+            background: linear-gradient(90deg, #007bff, #00c3ff);
+            bottom: -10px;
+            left: 20%;
+        }
+        
+        .faq-container {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 31, 63, 0.1);
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            margin-bottom: 3rem;
+        }
+        
+        .faq-item {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border-left: 4px solid #007bff;
+            background: white;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+        
+        .faq-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .faq-question {
+            padding: 20px 25px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #1a3c6e;
+            font-size: 19px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        
+        .faq-question:hover {
+            background-color: rgba(0, 123, 255, 0.05);
+        }
+        
+        .faq-question i {
+            transition: all 0.3s ease;
+        }
+        
+        .faq-question.active i {
+            transform: rotate(180deg);
+        }
+        
+        .faq-answer {
+            padding: 0 25px;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0, 1, 0, 1);
+            font-size: 17px;
+            line-height: 1.7;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .faq-answer.show {
+            max-height: 1000px;
+            padding: 20px 25px;
+            transition: all 0.5s cubic-bezier(0.5, 0, 0.1, 1);
+        }
+        
+        .faq-icon {
+            background: linear-gradient(45deg, #007bff, #00c3ff);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+            flex-shrink: 0;
+        }
+        
+        .faq-categories {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .category-btn {
+            background: white;
+            border: 2px solid transparent;
+            border-radius: 30px;
+            padding: 8px 18px;
+            margin: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 15px;
+            color: #1a3c6e;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .category-btn:hover {
+            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .category-btn.active {
+            background: linear-gradient(45deg, #1a3c6e, #007bff);
+            color: white;
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+        }
+        
+        .search-box {
+            position: relative;
+            margin-bottom: 40px;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 15px 25px;
+            border-radius: 50px;
+            border: none;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .search-box input:focus {
+            box-shadow: 0 4px 20px rgba(0, 123, 255, 0.15);
+            outline: none;
+        }
+        
+        .search-box i {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #007bff;
+            font-size: 18px;
+        }
+        
+        .still-need-help {
+            background: rgba(255, 247, 224, 0.9);
+            border-left: 4px solid #ffc107;
+            padding: 25px;
+            border-radius: 6px;
+            margin: 40px 0 20px;
+            text-align: center;
+        }
+        
+        .still-need-help h3 {
+            color: #1a3c6e;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        
+        .support-btn {
+            background: linear-gradient(45deg, #1a3c6e, #007bff);
+            border: none;
+            padding: 12px 30px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+            margin: 10px 5px;
+        }
+        
+        .support-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <%- include('navbar.ejs') %>
+    
+    <div id="canvas-container"></div>
+    
+    <div class="content-wrapper">
+        <header class="text-center">
+            <h1 class="display-5">Frequently Asked Questions</h1>
+        </header>
+        
+        <main class="container mt-4">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 col-md-10">
+                    <div class="search-box">
+                        <input type="text" id="faq-search" placeholder="Search for answers...">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    
+                    <div class="faq-categories">
+                        <div class="category-btn active" data-category="all">All Questions</div>
+                        <div class="category-btn" data-category="general">General</div>
+                        <div class="category-btn" data-category="upload">Uploading</div>
+                        <div class="category-btn" data-category="analysis">Analysis</div>
+                        <div class="category-btn" data-category="account">Account & Billing</div>
+                        <div class="category-btn" data-category="technical">Technical</div>
+                    </div>
+                    
+                    <div class="faq-container">
+                        <!-- General Questions -->
+                        <div class="faq-item" data-category="general">
+                            <div class="faq-question">
+                                <div class="d-flex align-items-center">
+                                    <div class="faq-icon">
+                                        <i class="fas fa-question"></i>
+                                    </div>
+                                    What is the Audio Analysis Platform?
+                                </div>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="faq-answer">
+                                <p>The Audio Analysis Platform is a comprehensive tool that uses advanced AI to analyze audio recordings for tone, sentiment, emotion, and key conversation insights. It's designed for researchers, content creators, and business professionals who need to extract detailed information from audio content.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="faq-item" data-category="general">
+                            <div class="faq-question">
+                                <div class="d-flex align-items-center">
+                                    <div class="faq-icon">
+                                        <i class="fas fa-file-audio"></i>
+                                    </div>
+                                    What types of audio can I analyze?
+                                </div>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="faq-answer">
+                                <p>You can analyze various types of audio including:</p>
+                                <ul>
+                                    <li>Interviews and podcasts</li>
+                                    <li>Customer service calls</li>
+                                    <li>Conference recordings</li>
+                                    <li>Focus groups</li>
+                                    <li>Personal voice notes</li>
+                                    <li>Public speeches and presentations</li>
+                                </ul>
+                                <p>The platform works best with clear audio that has minimal background noise.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Upload Questions -->
+                        <div class="faq-item" data-category="upload">
+                            <div class="faq-question">
+                                <div class="d-flex align-items-center">
+                                    <div class="faq-icon">
+                                        <i class="fas fa-cloud-upload-alt"></i>
+                                    </div>
+                                    What file formats do you support?
+                                </div>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="faq-answer">
+                                <p>We support the following audio file formats:</p>
+                                <ul>
+                                    <li>MP3 (.mp3)</li>
+                                    <li>WAV (.wav)</li>
+                                    <li>FLAC (.flac)</li>
+                                    <li>M4A (.m4a)</li>
+                                    <li>AAC (.aac)</li>
+                                    <li>OGG (.ogg)</li>
+                                </ul>
+                                <p>We recommend using uncompressed formats like WAV for the highest quality analysis results.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="faq-item" data-category="upload">
+                            <div class="faq-question">
+                                <div class="d-flex align-items-center">
+                                    <div class="faq-icon">
+                                        <i class="fas fa-weight"></i>
+                                    </div>
+                                    Is there a file size limit?
+                                </div>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="faq-answer">
+                                <p>Yes, the maximum file size is 500MB for standard accounts. Enterprise accounts have a higher limit of 1GB per file. If your file exceeds these limits, consider converting it to a more efficient format or splitting it into smaller segments before uploading.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Analysis Questions -->
+                        <div class="faq-item" data-category="analysis">
+                            <div class="faq-question">
+                                <div class="d-flex align-items-center">
+                                    <div class="faq-icon">
+                                        <i class="fas fa-chart-pie"></i>
+                                    </div>
+                                    How accurate is the sentiment analysis?
+                                </div>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="faq-answer">
+                                <p>Our sentiment analysis has been benchmarked at 87-92% accuracy when compared to human assessments. The accuracy can vary depending on:</p>
+                                <ul>
+                                    <li>Audio quality and clarity</li>
+                                    <li>Number of speakers and overlap</li>
+                                    <li>Background noise levels</li>
+                                    <li>Language fluency of speakers</li>
+                                </ul>
+                                <p>The system continuously improves through machine learning as more data is processed.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="faq-item" data-category="analysis">
+                            <div class="faq-question">
+                                <div class="d-flex align-items-center">
+                                    <div class="faq-icon">
+                                        <i class="fas fa-clock"></i>
+                                    </div>
+                                    How long does analysis take?
+                                </div>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="faq-answer">
+                                <p>Analysis time depends on several factors:</p>
+                                <ul>
+                                    <li>For files under 10 minutes: 30-60 seconds</li>
+                                    <li>For files 10-30 minutes: 1-3 minutes</li>
+                                    <li>For files 30-60 minutes: 3-5 minutes</li>
+                                    <li>For files over 60 minutes: 5+ minutes</li>
+                                </ul>
+                                <p>Processing times may be longer during peak usage periods. Premium accounts receive priority processing.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Account & Billing Questions -->
+                        <div class="faq-item" data-category="account">
+                            <div class="faq-question">
+                                <div class="d-flex align-items-center">
+                                    <div class="faq-icon">
+                                        <i class="fas fa-credit-card"></i>
+                                    </div>
+                                    What subscription plans do you offer?
+                                </div>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="faq-answer">
+                                <p>We offer the following subscription plans:</p>
+                                <ul>
+                                    <li><strong>Free Tier:</strong> 60 minutes of analysis per month, basic metrics only</li>
+                                    <li><strong>Standard ($29/month):</strong> 5 hours of analysis per month, full metrics suite</li>
+                                    <li><strong>Professional ($79/month):</strong> 20 hours of analysis per month, advanced features</li>
+                                    <li><strong>Enterprise:</strong> Custom pricing with unlimited analysis and dedicated support</li>
+                                </ul>
+                                <p>Annual subscriptions receive a 20% discount compared to monthly billing.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="faq-item" data-category="account">
+                            <div class="faq-question">
+                                <div class="d-flex align-items-center">
+                                    <div class="faq-icon">
+                                        <i class="fas fa-users"></i>
+                                    </div>
+                                    Can I share my account with team members?
+                                </div>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="faq-answer">
+                                <p>Account sharing policies differ by subscription level:</p>
+                                <ul>
+                                    <li><strong>Free & Standard:</strong> Single-user accounts only</li>
+                                    <li><strong>Professional:</strong> Up to 3 team members on one account</li>
+                                    <li><strong>Enterprise:</strong> Unlimited team members with role-based permissions</li>
+                                </ul>
+                                <p>Each team member gets their own login credentials with shared access to the organization's analysis results.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Technical Questions -->
+                        <div class="faq-item" data-category="technical">
+                            <div class="faq-question">
+                                <div class="d-flex align-items-center">
+                                    <div class="faq-icon">
+                                        <i class="fas fa-globe"></i>
+                                    </div>
+                                    What languages do you support?
+                                </div>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="faq-answer">
+                                <p>We currently support the following languages with full analysis capabilities:</p>
+                                <ul>
+                                    <li>English (US, UK, AU, CA variants)</li>
+                                    <li>Spanish</li>
+                                    <li>French</li>
+                                    <li>German</li>
+                                    <li>Italian</li>
+                                    <li>Portuguese</li>
+                                    <li>Japanese</li>
+                                </ul>
+                                <p>The following languages have beta support with limited features:</p>
+                                <ul>
+                                    <li>Mandarin Chinese</li>
+                                    <li>Hindi</li>
+                                    <li>Arabic</li>
+                                    <li>Russian</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="faq-item" data-category="technical">
+                            <div class="faq-question">
+                                <div class="d-flex align-items-center">
+                                    <div class="faq-icon">
+                                        <i class="fas fa-lock"></i>
+                                    </div>
+                                    How secure is my uploaded audio data?
+                                </div>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="faq-answer">
+                                <p>We take data security seriously:</p>
+                                <ul>
+                                    <li>All uploads and transmissions are secured with TLS 1.3 encryption</li>
+                                    <li>Data at rest is encrypted with AES-256</li>
+                                    <li>We are GDPR compliant and SOC 2 Type II certified</li>
+                                    <li>You can choose data retention periods (7 days to indefinite)</li>
+                                    <li>Enterprise plans include custom data security agreements</li>
+                                </ul>
+                                <p>We never use customer audio for training our models unless explicitly authorized.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="faq-item" data-category="technical">
+                            <div class="faq-question">
+                                <div class="d-flex align-items-center">
+                                    <div class="faq-icon">
+                                        <i class="fas fa-code"></i>
+                                    </div>
+                                    Do you offer an API for developers?
+                                </div>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="faq-answer">
+                                <p>Yes, we offer a comprehensive RESTful API that allows developers to:</p>
+                                <ul>
+                                    <li>Upload audio files programmatically</li>
+                                    <li>Trigger analysis processing</li>
+                                    <li>Retrieve analysis results in JSON format</li>
+                                    <li>Access transcripts with timestamps</li>
+                                    <li>Integrate our analysis capabilities into your own applications</li>
+                                </ul>
+                                <p>API access is included in Professional and Enterprise plans. Standard plans can purchase API access as an add-on. We provide SDKs for JavaScript, Python, Ruby, and Java.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="still-need-help">
+                        <h3><i class="fas fa-headset me-2"></i>Still Need Help?</h3>
+                        <p>If you couldn't find what you're looking for, our support team is ready to assist you.</p>
+                        <div class="d-flex justify-content-center flex-wrap">
+                            <button class="btn btn-primary support-btn me-2">
+                                <i class="fas fa-comments me-2"></i> Live Chat
+                            </button>
+                            <button class="btn btn-outline-primary support-btn">
+                                <i class="fas fa-envelope me-2"></i> Email Support
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <script>
+        // Initialize Three.js scene
+        let scene, camera, renderer;
+        let particles;
+
+        function initThree() {
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            document.getElementById('canvas-container').appendChild(renderer.domElement);
+            
+            // Create audio visualization-like particles
+            const particleGeometry = new THREE.BufferGeometry();
+            const particleCount = 300;
+            
+            const positions = new Float32Array(particleCount * 3);
+            const colors = new Float32Array(particleCount * 3);
+            
+            const blueColor = new THREE.Color(0x007bff);
+            const lightBlueColor = new THREE.Color(0x00c3ff);
+            
+            for (let i = 0; i < particleCount; i++) {
+                // Position particles in a wave-like pattern
+                const x = (Math.random() - 0.5) * 50;
+                const y = (Math.random() - 0.5) * 30;
+                const z = (Math.random() - 0.5) * 10;
+                
+                positions[i * 3] = x;
+                positions[i * 3 + 1] = y;
+                positions[i * 3 + 2] = z;
+                
+                // Mix colors between blue shades
+                const mixedColor = blueColor.clone().lerp(lightBlueColor, Math.random());
+                colors[i * 3] = mixedColor.r;
+                colors[i * 3 + 1] = mixedColor.g;
+                colors[i * 3 + 2] = mixedColor.b;
+            }
+            
+            particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            particleGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+            
+            const particleMaterial = new THREE.PointsMaterial({
+                size: 0.7,
+                vertexColors: true,
+                transparent: true,
+                opacity: 0.6
+            });
+            
+            particles = new THREE.Points(particleGeometry, particleMaterial);
+            scene.add(particles);
+            
+            camera.position.z = 30;
+            
+            animate();
+            window.addEventListener('resize', onWindowResize);
+        }
+        
+        function animate() {
+            requestAnimationFrame(animate);
+            
+            // Create wave-like movement for particles
+            const time = Date.now() * 0.0005;
+            const positions = particles.geometry.attributes.position.array;
+            
+            for (let i = 0; i < positions.length; i += 3) {
+                const x = positions[i];
+                const y = positions[i + 1];
+                
+                // Apply sine wave motion
+                positions[i + 1] = y + Math.sin(time + x) * 0.1;
+            }
+            
+            particles.geometry.attributes.position.needsUpdate = true;
+            particles.rotation.y += 0.0005;
+            
+            renderer.render(scene, camera);
+        }
+        
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+        
+        // Initialize FAQ functionality
+        $(document).ready(function() {
+            initThree();
+            
+            // Animate FAQs when they enter viewport
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.classList.add('visible');
+                        }, 150);
+                    }
+                });
+            }, { threshold: 0.2 });
+            
+            document.querySelectorAll('.faq-item').forEach((item) => {
+                observer.observe(item);
+            });
+            
+            // FAQ accordion functionality
+            $('.faq-question').on('click', function() {
+                const answer = $(this).next('.faq-answer');
+                const isOpen = answer.hasClass('show');
+                
+                // Close all other answers
+                $('.faq-answer').removeClass('show');
+                $('.faq-question').removeClass('active');
+                
+                // Toggle current answer
+                if (!isOpen) {
+                    answer.addClass('show');
+                    $(this).addClass('active');
+                }
+            });
+            
+            // Category filtering
+            $('.category-btn').on('click', function() {
+                const category = $(this).data('category');
+                
+                // Update active button
+                $('.category-btn').removeClass('active');
+                $(this).addClass('active');
+                
+                // Filter FAQs
+                if (category === 'all') {
+                    $('.faq-item').show();
+                } else {
+                    $('.faq-item').hide();
+                    $(`.faq-item[data-category="${category}"]`).show();
+                }
+            });
+            
+            // Search functionality
+            $('#faq-search').on('input', function() {
+                const searchTerm = $(this).val().toLowerCase();
+                
+                if (searchTerm.length > 1) {
+                    $('.faq-item').each(function() {
+                        const questionText = $(this).find('.faq-question').text().toLowerCase();
+                        const answerText = $(this).find('.faq-answer').text().toLowerCase();
+                        
+                        if (questionText.includes(searchTerm) || answerText.includes(searchTerm)) {
+                            $(this).show();
+                            
+                            // Open answers that match search
+                            if (answerText.includes(searchTerm)) {
+                                $(this).find('.faq-answer').addClass('show');
+                                $(this).find('.faq-question').addClass('active');
+                            }
+                        } else {
+                            $(this).hide();
+                        }
+                    });
+                    
+                    // Reset category buttons when searching
+                    $('.category-btn').removeClass('active');
+                    $('.category-btn[data-category="all"]').addClass('active');
+                } else if (searchTerm.length === 0) {
+                    // If search is cleared, reset to current category view
+                    const currentCategory = $('.category-btn.active').data('category');
+                    
+                    if (currentCategory === 'all') {
+                        $('.faq-item').show();
+                    } else {
+                        $('.faq-item').hide();
+                        $(`.faq-item[data-category="${currentCategory}"]`).show();
+                    }
+                    
+                    // Close all answers when search is cleared
+                    $('.faq-answer').removeClass('show');
+                    $('.faq-question').removeClass('active');
+                }
+            });
+        });
+    </script>
+    
+    <%- include('footer.ejs') %>
+</body>
+</html>
